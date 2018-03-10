@@ -33,10 +33,15 @@ function runJob(job, done) {
 	request(url, function(error, response, html){
 		if (!error){
 			job.data = html;
-			console.log('done');
+			//return job;
+			//console.log(job);
+			done(null, job);
+		} else{
+			done(error); //fix this with real error handling
 		}
 	});
-	console.log(job);
+	//console.log(job);
+
 	//done();
 	//after job is run, update urlObject
 }
@@ -56,9 +61,18 @@ function createJob(url, res, db){
 	var createJob = queue.create('job', urlObject)
 	.removeOnComplete(false)
 	.on('complete', function(result){
-		console.log('Job Completed');
+		var updatedJob = result;
+		var details = {'_id': new ObjectID(updatedJob._id)};
+		db.collection('urls').findOneAndUpdate(
+			details, 
+			{
+				$set: {
+					data: updatedJob.data
+				}
 
-		//update & save to database
+			}
+		);
+		console.log('job completed');
 	}).on('start', function(progress, data){
 		console.log('Job ' + urlObject._id + ' starting');
 	}).on('enqueue', function(){
@@ -84,8 +98,9 @@ function done(done){
 }
 
 queue.process('job', function(job, done){
-	job.data = runJob(job.data)
-	done();
+	job.data = runJob(job.data, done);
+	
+	//done();
 	//console.log(job.data);
 	
 	// var urlObject = job.data;
