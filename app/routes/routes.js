@@ -1,6 +1,8 @@
 var ObjectID = require('mongodb').ObjectID;
 var request = require('request');
 var controller = require('../controllers/jobsController');
+var request = require('request');
+var urlExists = require('url-exists');
 
 module.exports = function(app, db) {
 
@@ -14,9 +16,12 @@ module.exports = function(app, db) {
 				if (item == null){
 					res.send({'error': 'This job does not exist'});
 				} else{
-					res.send(item);
+					if (item.status == 'completed'){
+						res.send(item);
+					} else{
+						res.send({'status': 'job not completed'});
+					}
 				}
-				//console.log(item);
 				
 			}
 		});
@@ -27,7 +32,12 @@ module.exports = function(app, db) {
   app.post('/url/:url', (req, res) => {
 	var url = 'http://' + req.params.url; 
 	//check if valid url
-    
-	controller.createJob(url, res, db);
+	urlExists(url, function(err, exists){
+		if (!err && exists){
+			controller.createJob(url, res, db);
+		} else{
+			res.send({'error': 'not a valid website'});
+		}
+	})
   });
 };

@@ -23,7 +23,8 @@
     "express": "^4.16.2",
     "kue": "^0.11.6",
     "mongodb": "^2.2.16",
-    "request": "^2.83.0"
+    "request": "^2.83.0",
+    "url-exists": "^1.0.3"
   },
   "devDependencies": {
     "nodemon": "^1.17.1"
