@@ -3,7 +3,7 @@ var MongoClient = require('mongodb').MongoClient;
 var bodyParser = require('body-parser');
 var db = require('./database/db');
 var request = require('request'); //used to get html
-var cheerio = require('cheerio'); //used to get html
+
 
 const app = express();
 
@@ -16,8 +16,8 @@ MongoClient.connect(db.url, (err, database) =>{
 	var db = database.db("massdrop")
 	require('./app/routes')(app, database);
 	app.listen(port, () => {
-		console.log('We are live on ' + port);
 	});
 
 })
 
+module.exports = app;
