@@ -18,6 +18,5 @@ MongoClient.connect(db.url, (err, database) =>{
 	app.listen(port, () => {
 	});
 
-})
+});
 
-module.exports = app;

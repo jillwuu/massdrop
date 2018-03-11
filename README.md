@@ -11,7 +11,7 @@ To install dependencies:
 Make sure Redis is installed and running. 
 
 To run server:
-```npm start```
+```$ npm start```
 
 The server should start on port 8000. 
 
@@ -33,7 +33,7 @@ $ curl -H "Content-Type: application/json" -X POST -d \ '{"url": "google.com"}' 
 }
 ```
 
-### GET /fetch
+### GET /fetch/:id
 To check the status of a job:
 
 #### Sample Request:

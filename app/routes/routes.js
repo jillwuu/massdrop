@@ -6,14 +6,10 @@ var urlExists = require('url-exists');
 const bodyParser = require('body-parser');
 
 module.exports = function(app, db) {
-
-
-
 	app.use(bodyParser.json());
 	app.use(bodyParser.urlencoded({
 		  extended: true
 	}));
-
 
 	app.get('/', function(req, res){
 		res.send('Massdrop Job Queue');
